@@ -9,7 +9,7 @@ call print_string     ; Call the print_string function to print the message
 
 jmp $                 ; Infinite loop to halt execution
 
-%include "utils16/print.s" ; Include the print_string function from an external file
+%include "utils16/print.asm" ; Include the print_string function from an external file
 
 MSG_REAL_MODE:
     db 'Starting in real mode', 0  ; Null-terminated string
