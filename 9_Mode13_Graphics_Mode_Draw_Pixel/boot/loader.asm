@@ -77,9 +77,10 @@ boot:
 
 	call switch_to_graphics_mode13
 
-	mov cx, 100	; x-coordinate
-	mov dx, 100	; y-coordinate
-	mov bl, 0x4	; color (8 bit)
+	mov ax, 10	; x-coordinate
+	mov bx, 100	; y-coordinate
+	mov cl, 0x4	; color (8 bit)
+
 	call draw_pixel
 jmp $
   ; Prepare to enter protected mode

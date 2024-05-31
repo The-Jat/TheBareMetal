@@ -11,18 +11,30 @@ Output file:  loader.bin
 -- Sections (summary) ---------------------------------------------------------
 
 Vstart            Start             Stop              Length    Class     Name
-            7E00              7E00              8800  00000A00  progbits  .text
+            7E00              7E00              8220  00000420  progbits  .text
+            8220              8220              8C20  00000A00  progbits  .data
 
 -- Sections (detailed) --------------------------------------------------------
 
 ---- Section .text ------------------------------------------------------------
 
 class:     progbits
-length:                 A00
+length:                 420
 start:                 7E00
 align:     not defined
 follows:   not defined
 vstart:                7E00
+valign:    not defined
+vfollows:  not defined
+
+---- Section .data ------------------------------------------------------------
+
+class:     progbits
+length:                 A00
+start:                 8220
+align:                    4
+follows:   not defined
+vstart:                8220
 valign:    not defined
 vfollows:  not defined
 
@@ -50,6 +62,7 @@ Value     Name
 00000018  GDT32.Table.Size
 00000018  GDT64.Table.Size
 00000000  BIOS.Drive.Id
+00000140  GRAPHICS_MODE_13_SCREEN_WIDTH
 000B8000  PM.Video_Text.Addr
 00000007  PM.Video_Text.Colour
 00000008  IDT32.Table.Size
@@ -111,46 +124,50 @@ Real              Virtual           Name
             81E7              81E7  enter_protected_mode
             8208              8208  switch_to_graphics_mode13
             820E              820E  draw_pixel
-            822A              822A  start
-            8239              8239  boot
-            825F              825F  ProtectedMode.SecondStage.32IDTVec0.Msg
-            8283              8283  ProtectedMode.SecondStage.CleanPages.Msg
-            82A7              82A7  ProtectedMode.SecondStage.PagesBuilt.Msg
-            82D5              82D5  cur_row
-            82D9              82D9  cur_col
-            82DD              82DD  screen_width
-            82E1              82E1  IDT32.Table
-            82E1              82E1  IDT32.Table.vec0
-            82E9              82E9  IDT32.Table.Pointer
-            82F3              82F3  pm_div0_int_handler
-            8304              8304  pm_retrive_video_cursor_settings
-            8328              8328  pm_display_string
-            833C              833C  pm_display_string_internal
-            8345              8345  pm_display_string_internal.loop
-            8357              8357  pm_display_string_internal.print_char
-            8382              8382  pm_display_string_internal.cr_lf
-            838A              838A  pm_display_string_internal.break_line
-            839C              839C  pm_display_string_internal.done
-            83A3              83A3  pm_set_cursor
-            83CB              83CB  pm_move_kernel
-            83E6              83E6  pm_setup_page_tables
-            83E7              83E7  pm_setup_page_tables.clean_memory
-            8402              8402  pm_setup_page_tables.setup_tables
-            8457              8457  pm_setup_page_tables.make_pte_page
-            846F              846F  pm_enter_long_mode
-            84A8              84A8  pm_endless_loop
-            84A9              84A9  pm_endless_loop.end
-            84AC              84AC  protected_mode_boot
-            84E7              84E7  LongMode.SecondStage.Booting.Msg
-            8513              8513  lm_display_string
-            8558              8558  lm_display_string_internal
-            8577              8577  lm_display_string_internal.loop
-            858A              858A  lm_display_string_internal.print_char
-            85BD              85BD  lm_display_string_internal.cr_lf
-            85C6              85C6  lm_display_string_internal.break_line
-            85DA              85DA  lm_display_string_internal.done
-            85F7              85F7  lm_set_cursor
-            8625              8625  lm_endless_loop
-            8626              8626  lm_endless_loop.end
-            8629              8629  long_mode_boot
+
+---- Section .data ------------------------------------------------------------
+
+Real              Virtual           Name
+            8220              8220  start
+            822F              822F  boot
+            8255              8255  ProtectedMode.SecondStage.32IDTVec0.Msg
+            8279              8279  ProtectedMode.SecondStage.CleanPages.Msg
+            829D              829D  ProtectedMode.SecondStage.PagesBuilt.Msg
+            82CB              82CB  cur_row
+            82CF              82CF  cur_col
+            82D3              82D3  screen_width
+            82D7              82D7  IDT32.Table
+            82D7              82D7  IDT32.Table.vec0
+            82DF              82DF  IDT32.Table.Pointer
+            82E9              82E9  pm_div0_int_handler
+            82FA              82FA  pm_retrive_video_cursor_settings
+            831E              831E  pm_display_string
+            8332              8332  pm_display_string_internal
+            833B              833B  pm_display_string_internal.loop
+            834D              834D  pm_display_string_internal.print_char
+            8378              8378  pm_display_string_internal.cr_lf
+            8380              8380  pm_display_string_internal.break_line
+            8392              8392  pm_display_string_internal.done
+            8399              8399  pm_set_cursor
+            83C1              83C1  pm_move_kernel
+            83DC              83DC  pm_setup_page_tables
+            83DD              83DD  pm_setup_page_tables.clean_memory
+            83F8              83F8  pm_setup_page_tables.setup_tables
+            844D              844D  pm_setup_page_tables.make_pte_page
+            8465              8465  pm_enter_long_mode
+            849E              849E  pm_endless_loop
+            849F              849F  pm_endless_loop.end
+            84A2              84A2  protected_mode_boot
+            84DD              84DD  LongMode.SecondStage.Booting.Msg
+            8509              8509  lm_display_string
+            854E              854E  lm_display_string_internal
+            856D              856D  lm_display_string_internal.loop
+            8580              8580  lm_display_string_internal.print_char
+            85B3              85B3  lm_display_string_internal.cr_lf
+            85BC              85BC  lm_display_string_internal.break_line
+            85D0              85D0  lm_display_string_internal.done
+            85ED              85ED  lm_set_cursor
+            861B              861B  lm_endless_loop
+            861C              861C  lm_endless_loop.end
+            861F              861F  long_mode_boot
 
