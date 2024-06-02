@@ -99,6 +99,7 @@ boot:
 %include "include/protectedmode.asm"
 %include "include/display32.asm"
 
+string_to_print db 'The JAT', 0   ; String to print, null-terminated
 
 protected_mode_boot:
 
@@ -140,7 +141,15 @@ protected_mode_boot:
 	mov eax, '~'	; character to print
 	mov ebx, 10	; x
 	mov ecx, 15	; y
+	mov edx, 4	; color
 	call draw_Char
+
+; Call print_string with the string to print, x position, y position, and color
+	mov esi, string_to_print  ; ESI points to the string
+	mov ebx, 100               ; X position
+	mov ecx, 100               ; Y position
+	mov edx, 13			; Color = light magenta
+	call print_string
 
 ; infinite loop
 jmp $

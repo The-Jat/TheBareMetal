@@ -165,23 +165,26 @@ Real              Virtual           Name
             878B              878B  pm_enter_long_mode
             87C4              87C4  pm_endless_loop
             87C5              87C5  pm_endless_loop.end
-            87C8              87C8  draw_pixel32
-            87DD              87DD  draw_Char
-            8802              8802  next_row32
-            880C              880C  next_pixel32
-            8813              8813  skip_pixel32
-            8821              8821  charA
-            8829              8829  protected_mode_boot
-            887C              887C  LongMode.SecondStage.Booting.Msg
-            88A8              88A8  lm_display_string
-            88ED              88ED  lm_display_string_internal
-            890C              890C  lm_display_string_internal.loop
-            891F              891F  lm_display_string_internal.print_char
-            8952              8952  lm_display_string_internal.cr_lf
-            895B              895B  lm_display_string_internal.break_line
-            896F              896F  lm_display_string_internal.done
-            898C              898C  lm_set_cursor
-            89BA              89BA  lm_endless_loop
-            89BB              89BB  lm_endless_loop.end
-            89BE              89BE  long_mode_boot
+            87C8              87C8  print_string
+            87C9              87C9  print_string.next_char
+            87DE              87DE  print_string.done
+            87E0              87E0  draw_pixel32
+            87F5              87F5  draw_Char
+            8820              8820  next_row32
+            882A              882A  next_pixel32
+            8833              8833  skip_pixel32
+            8844              8844  string_to_print
+            884C              884C  protected_mode_boot
+            88BD              88BD  LongMode.SecondStage.Booting.Msg
+            88E9              88E9  lm_display_string
+            892E              892E  lm_display_string_internal
+            894D              894D  lm_display_string_internal.loop
+            8960              8960  lm_display_string_internal.print_char
+            8993              8993  lm_display_string_internal.cr_lf
+            899C              899C  lm_display_string_internal.break_line
+            89B0              89B0  lm_display_string_internal.done
+            89CD              89CD  lm_set_cursor
+            89FB              89FB  lm_endless_loop
+            89FC              89FC  lm_endless_loop.end
+            89FF              89FF  long_mode_boot
 
