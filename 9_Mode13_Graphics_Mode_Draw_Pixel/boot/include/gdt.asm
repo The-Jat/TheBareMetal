@@ -37,8 +37,7 @@ GDT32.Table:
     db      10010010b   ; Access
     db      11001111b   ; LimitHighFlags
     db      0x00        ; BaseHigh
-
-
+    
 GDT32.Table.Size    equ     ($ - GDT32.Table)
 
 GDT32.Table.Pointer:

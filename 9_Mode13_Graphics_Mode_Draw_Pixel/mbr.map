@@ -31,7 +31,7 @@ vfollows:  not defined
 ---- No Section ---------------------------------------------------------------
 
 Value     Name
-00000005  Loader.File.NumberOfBlocks
+0000000A  Loader.File.NumberOfBlocks
 00000200  Kernel.File.NumberOfBlocks
 00000014  UserProg.File.NumberOfBlocks
 0000007F  BIOS.DiskExt.MaxBlocksPerOp
@@ -45,7 +45,7 @@ Value     Name
 00012000  Mem.PDE.Address
 00013000  Mem.PTE.Address
 00018000  Paging.End.Address
-00008800  Loader.Kernel.Start.Address
+00009200  Loader.Kernel.Start.Address
 00200000  Kernel.New.Start.Address
 00000000  BIOS.Drive.Id
 

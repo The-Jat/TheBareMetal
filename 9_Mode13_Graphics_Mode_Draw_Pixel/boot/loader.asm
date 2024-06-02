@@ -1,6 +1,5 @@
 [BITS 16]
 [ORG 0x7E00]
-
 ; Produce a map file containing all symbols and sections.
 [map all loader.map]
 
@@ -41,6 +40,7 @@ jmp start
 %include "include/second_stage_loader.asm"
 %include "include/display.asm" ; switch mode and displaying graphics
 
+
 start:
 
   ; Proper initialisation of stack during BIOS bootloader
@@ -78,11 +78,14 @@ boot:
 	call switch_to_graphics_mode13
 
 	mov ax, 10	; x-coordinate
-	mov bx, 100	; y-coordinate
-	mov cl, 0x4	; color (8 bit)
+	mov bx, 10	; y-coordinate
+	mov cl, 0x7	; color (8 bit)
 
 	call draw_pixel
-jmp $
+	
+
+	
+;jmp $
   ; Prepare to enter protected mode
   call enter_protected_mode
 
@@ -94,6 +97,7 @@ jmp $
 
 ; Include Constants/Variables/routines useful in protected mode
 %include "include/protectedmode.asm"
+%include "include/display32.asm"
 
 
 protected_mode_boot:
@@ -117,7 +121,7 @@ protected_mode_boot:
   mov fs, ax
   mov gs, ax
   mov ss, ax
-  mov esp, Loader.Mem.Stack.Top
+  mov esp, 0x90000;Loader.Mem.Stack.Top
 
 
   ; 10. Execute the LIDT instruction to load the IDTR register with the address
@@ -126,7 +130,20 @@ protected_mode_boot:
 
   ; 11. Execute the STI instruction to enable maskable hardware interrupts and
   ;   perform the necessary hardware operation to enable NMI interrupts.
-  sti
+;  sti
+
+
+;	ax = y coordinate
+;	bx = x coordinate
+;	cl = color
+
+	mov eax, '~'	; character to print
+	mov ebx, 10	; x
+	mov ecx, 15	; y
+	call draw_Char
+
+; infinite loop
+jmp $
 
   ; fix video text printing
   call pm_retrive_video_cursor_settings

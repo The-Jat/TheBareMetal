@@ -355,15 +355,15 @@ enter_protected_mode:
   cli
 
   ; print status message (yes, int x10 is a software interrupt hence not affected by cli)
-  mov si, Realmode.SecondStage.LoadingGDT.Msg
-  call display_string
+  ;mov si, Realmode.SecondStage.LoadingGDT.Msg
+  ;call display_string
 
   ; Load 32-bit GDT
   lgdt [GDT32.Table.Pointer]
 
   ; print status message
-  mov si, Realmode.SecondStage.EnteringPMode.Msg
-  call display_string
+;  mov si, Realmode.SecondStage.EnteringPMode.Msg
+;  call display_string
 
   ; Enable protected mode.
   mov     eax,    cr0
