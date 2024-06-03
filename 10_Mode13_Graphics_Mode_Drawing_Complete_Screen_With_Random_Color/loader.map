@@ -1,0 +1,195 @@
+
+- NASM Map file ---------------------------------------------------------------
+
+Source file:  boot/loader.asm
+Output file:  loader.bin
+
+-- Program origin -------------------------------------------------------------
+
+00007E00
+
+-- Sections (summary) ---------------------------------------------------------
+
+Vstart            Start             Stop              Length    Class     Name
+            7E00              7E00              8250  00000450  progbits  .text
+            8250              8250              9650  00001400  progbits  .data
+
+-- Sections (detailed) --------------------------------------------------------
+
+---- Section .text ------------------------------------------------------------
+
+class:     progbits
+length:                 450
+start:                 7E00
+align:     not defined
+follows:   not defined
+vstart:                7E00
+valign:    not defined
+vfollows:  not defined
+
+---- Section .data ------------------------------------------------------------
+
+class:     progbits
+length:                1400
+start:                 8250
+align:                    4
+follows:   not defined
+vstart:                8250
+valign:    not defined
+vfollows:  not defined
+
+-- Symbols --------------------------------------------------------------------
+
+---- No Section ---------------------------------------------------------------
+
+Value     Name
+0000000A  Loader.File.NumberOfBlocks
+00000200  Kernel.File.NumberOfBlocks
+00000014  UserProg.File.NumberOfBlocks
+0000007F  BIOS.DiskExt.MaxBlocksPerOp
+0000000D  CR
+0000000A  LF
+00007C00  MBR.Mem.Stack.Top
+00007E00  Loader.Mem.Stack.Top
+00010000  Paging.Start.Address
+00010000  Mem.PML4.Address
+00011000  Mem.PDPE.Address
+00012000  Mem.PDE.Address
+00013000  Mem.PTE.Address
+00018000  Paging.End.Address
+00009200  Loader.Kernel.Start.Address
+00200000  Kernel.New.Start.Address
+00000018  GDT32.Table.Size
+00000018  GDT64.Table.Size
+00000000  BIOS.Drive.Id
+00000140  GRAPHICS_MODE_13_SCREEN_WIDTH
+0000A000  FRAMEBUFFER_ADDRESS
+000B8000  PM.Video_Text.Addr
+00000007  PM.Video_Text.Colour
+00000008  IDT32.Table.Size
+00000003  pm_setup_page_tables.StdBits
+000A0000  FRAMEBUFFER_ADDRESS_MODE_13
+00000140  MODE_13_SCREEN_WIDTH
+000000C8  MODE_13_SCREEN_HEIGHT
+000B8000  LM.Video_Text.Addr
+0000000A  LM.Video_Text.Colour
+
+
+---- Section .text ------------------------------------------------------------
+
+Real              Virtual           Name
+            7E03              7E03  LOG_PREFIX
+            7E13              7E13  GDT32.Table
+            7E2B              7E2B  GDT32.Table.Pointer
+            7E31              7E31  GDT64.Table
+            7E49              7E49  GDT64.Table.Pointer
+            7E4F              7E4F  Realmode.FirstStage.Booting.Msg
+            7E71              7E71  Realmode.BIOSDiskExtensionPresent.Msg
+            7E92              7E92  Realmode.BIOSDiskExtensionNotPresent.Msg
+            7EC3              7EC3  Realmode.BIOSDiskExtensionLoadingError.Msg
+            7EF8              7EF8  BIOSDAPReadPacket
+            7F08              7F08  bios_check_extensions_present
+            7F1C              7F1C  bios_check_extensions_present.not_found
+            7F24              7F24  bios_check_extensions_present.found
+            7F2C              7F2C  bios_extended_read_sectors_from_drive
+            7F62              7F62  bios_extended_read_sectors_from_drive.error
+            7F6A              7F6A  display_string
+            7F78              7F78  display_string_internal
+            7F7E              7F7E  display_string_internal.loop
+            7F87              7F87  display_string_internal.done
+            7F89              7F89  endless_loop
+            7F8A              7F8A  endless_loop.end
+            7F8D              7F8D  Realmode.SecondStage.Booting.Msg
+            7FAB              7FAB  Realmode.SecondStage.A20Enabled.Msg
+            7FC6              7FC6  Realmode.SecondStage.A20EnablingError.Msg
+            7FEB              7FEB  Realmode.SecondStage.CPUIDNotSupported.Msg
+            801A              801A  Realmode.SecondStage.64BitNotSupported.Msg
+            8043              8043  Realmode.SecondStage.64BitSupported.Msg
+            805E              805E  Realmode.SecondStage.LoadingGDT.Msg
+            8087              8087  Realmode.SecondStage.EnteringPMode.Msg
+            80AC              80AC  ProtectedMode.SecondStage.Booting.Msg
+            80D2              80D2  enable_A20
+            80D8              80D8  enable_A20.attempt1
+            80E2              80E2  enable_A20.attempt2
+            8118              8118  enable_A20.attempt2.wait1
+            811F              811F  enable_A20.attempt2.wait2
+            8126              8126  enable_A20.attempt3
+            8133              8133  enable_A20.failed
+            813C              813C  enable_A20.done
+            8144              8144  test_A20
+            8174              8174  test_A20.enabled
+            8175              8175  test_A20.done
+            8179              8179  HasCPUID
+            819C              819C  HasCPUID.supported
+            819D              819D  HasCPUID.done
+            81A2              81A2  cpu_supports_64_bit_mode
+            81D5              81D5  cpu_supports_64_bit_mode.error.noCPUID
+            81DE              81DE  cpu_supports_64_bit_mode.error.no64BitMode
+            81E7              81E7  enter_protected_mode
+            81FC              81FC  switch_to_graphics_mode13
+            8202              8202  draw_pixel
+            8214              8214  draw_A
+            8234              8234  next_row
+            823C              823C  next_pixel
+            8244              8244  skip_pixel
+
+---- Section .data ------------------------------------------------------------
+
+Real              Virtual           Name
+            8250              8250  font_table
+            8548              8548  start
+            8557              8557  boot
+            857B              857B  ProtectedMode.SecondStage.32IDTVec0.Msg
+            859F              859F  ProtectedMode.SecondStage.CleanPages.Msg
+            85C3              85C3  ProtectedMode.SecondStage.PagesBuilt.Msg
+            85F1              85F1  cur_row
+            85F5              85F5  cur_col
+            85F9              85F9  screen_width
+            85FD              85FD  IDT32.Table
+            85FD              85FD  IDT32.Table.vec0
+            8605              8605  IDT32.Table.Pointer
+            860F              860F  pm_div0_int_handler
+            8616              8616  pm_retrive_video_cursor_settings
+            863A              863A  pm_display_string
+            864E              864E  pm_display_string_internal
+            8657              8657  pm_display_string_internal.loop
+            8669              8669  pm_display_string_internal.print_char
+            8694              8694  pm_display_string_internal.cr_lf
+            869C              869C  pm_display_string_internal.break_line
+            86AE              86AE  pm_display_string_internal.done
+            86B5              86B5  pm_set_cursor
+            86DD              86DD  pm_move_kernel
+            86F8              86F8  pm_setup_page_tables
+            86F9              86F9  pm_setup_page_tables.clean_memory
+            870A              870A  pm_setup_page_tables.setup_tables
+            875F              875F  pm_setup_page_tables.make_pte_page
+            876D              876D  pm_enter_long_mode
+            87A6              87A6  pm_endless_loop
+            87A7              87A7  pm_endless_loop.end
+            87AA              87AA  clear_screen
+            87B9              87B9  print_string
+            87BA              87BA  print_string.next_char
+            87CF              87CF  print_string.done
+            87D1              87D1  draw_pixel32
+            87E6              87E6  draw_Char
+            8811              8811  next_row32
+            881B              881B  next_pixel32
+            8824              8824  skip_pixel32
+            8835              8835  generate_random
+            883C              883C  fill_screen_with_random_colors
+            8847              8847  fill_screen_with_random_colors.draw_loop
+            8851              8851  string_to_print
+            8859              8859  protected_mode_boot
+            88CC              88CC  LongMode.SecondStage.Booting.Msg
+            88F8              88F8  lm_display_string
+            893D              893D  lm_display_string_internal
+            895C              895C  lm_display_string_internal.loop
+            896F              896F  lm_display_string_internal.print_char
+            89A2              89A2  lm_display_string_internal.cr_lf
+            89AB              89AB  lm_display_string_internal.break_line
+            89BF              89BF  lm_display_string_internal.done
+            89DC              89DC  lm_set_cursor
+            8A0A              8A0A  lm_endless_loop
+            8A0B              8A0B  lm_endless_loop.end
+            8A0E              8A0E  long_mode_boot
+
