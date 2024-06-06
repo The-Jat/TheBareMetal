@@ -71,37 +71,24 @@ boot:
   ; Attempt to enable the A20 line if necessary.
   call enable_A20
 
-;xor ax, ax
-;mov es, ax
-;mov ax, 0x4f00			; VBE function 0x4F00
-;mov di, vbeInfoBuffer		; Pointer to buffer for VBE information
-;int 0x10			; BIOS video interrupt
 
-; Check return status
-;cmp ax, 0x004F			; Check if function call was successful
-;jne error_handler		; Jump to error handler if not successful
-
-; Print VBE controller information
-;call print_vbe_info
-;jmp $
 ;; Set up vbe info structure
     xor ax, ax
     mov es, ax
     mov ah, 4Fh
-    mov di, vbeInfoBuffer
+    mov di, vbe_info_block
     int 10h
 
     cmp ax, 4Fh
     jne error
-mov si, vbeInfoBuffer
+mov si, vbe_info_block
 mov cx, 4
 call print_passed_char
-;;call print_vbe_info
-jmp $
+
     mov ax, word [vbe_info_block.video_mode_pointer]
     mov [offset], ax
     mov ax, word [vbe_info_block.video_mode_pointer+2]
-    mov [t_segment], ax
+    mov [vbe_mode_list_segment], ax
         
     mov fs, ax
     mov si, [offset]
@@ -159,9 +146,8 @@ jmp $
         cmp al, [mode_info_block.bits_per_pixel]
         jne .next_mode
 
-jmp $
-
- mov ax, 4F02h	; Set VBE mode
+;; Set the desired video mode from the mode variable
+	mov ax, 4F02h	; Set VBE mode
         mov bx, [mode]
         or bx, 4000h	; Enable linear frame buffer, bit 14
         xor di, di
@@ -170,41 +156,26 @@ jmp $
         cmp ax, 4Fh
         jne error
 
- .next_mode:
-        mov ax, [t_segment]
+jmp $	; stop after setting video mode.
+
+.next_mode:
+        mov ax, [vbe_mode_list_segment]
         mov fs, ax
         mov si, [offset]
         jmp .find_mode
 
-    error:
+error:
         mov ax, 0E46h	; Print 'F'
         int 10h
         cli
         hlt
 
-    end_of_modes:
+end_of_modes:
         mov ax, 0E4Eh	; Print 'N'
         int 10h
         cli
         hlt
         
-
-jmp $
-
-; Invoke VBE function 0x4F01 to get supported video modes
-;    mov ax, 0x4F01         ; VBE function 0x4F01
-;    mov di, modeInfoBuffer ; Pointer to buffer for mode information
-;    mov cx, 256            ; Size of mode information buffer
-;    int 0x10               ; BIOS video interrupt
-    
-    ; Check return status
-;    cmp ax, 0x004F         ; Check if function call was successful
-;    jne error_handler      ; Jump to error handler if not successful
-
-    ; Print supported video modes
-;    call print_supported_modes
-    
-    
 
 jmp $
 
@@ -362,7 +333,6 @@ jmp $
     ; -> ProtectedMode.asm -> Please refactor this a bit...this looks like a mess
     ; -> Display string -> refactor this function to allow the OS tag name to be stored just once.. no biggie, but relevant
 
-;modeInfoBuffer  resb 256         ; Buffer to store mode information
 
 ; On physical devices this isn't required because the BIOS will
 ; pull the x number of blocks regardless of their content, however,

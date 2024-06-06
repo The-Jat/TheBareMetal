@@ -19,7 +19,7 @@ ret
 ;	bx = x coordinate
 ;	cl = color
 draw_pixel:
-	mov dx, FRAMEBUFFER_ADDRESS ; Set segment to video memory
+	mov dx, GRAPHICS_MODE_13_FRAMEBUFFER_ADDRESS ; Set segment to video memory
 	mov es, dx	; es now points to video memory
 	
 	mov dx, GRAPHICS_MODE_13_SCREEN_WIDTH	; set dx to screen width
@@ -85,7 +85,7 @@ ret
 
 
 	GRAPHICS_MODE_13_SCREEN_WIDTH	equ 320		; Screen width for the graphics mode 13
-	FRAMEBUFFER_ADDRESS		equ 0xA000	; Memory address for the mode 13
+	GRAPHICS_MODE_13_FRAMEBUFFER_ADDRESS		equ 0xA000	; Memory address for the mode 13
 
 ;; This function prints the specfied number of character from the buffer,
 ;; si, pointer to buffer
@@ -99,56 +99,10 @@ print_passed_char:
 	loop .print_passed_char_loop
 	popa
 ret
-; Function to print VBE controller information
-print_vbe_info:
-pusha
-    ; Print VBE signature
-    mov si, vbeInfoBuffer
-    mov cx, 4
-    .loopy
-    lodsb
-    mov ah, 0x0E
-    int 0x10
-    loop .loopy
-    jmp $
-    ;mov di, print_buffer
-    ;mov cx, 4
-    ;rep movsb            ; Copy VBE signature to print buffer
-    ;mov byte [edi], 0   ; Null-terminate the string
-    ;call print_string_16   ; Print the string in the buffer
 
-    ; Print VBE version
- ;   mov ax, word [esi + 4]  ; VBE version is a word (2 bytes)
- ;   call print_hex_word     ; Print VBE version in hexadecimal
- ;   call print_newline
-    
-    ; Print OEM string
-    ;mov esi, dword [esi + 8] ;  OEM string pointer
-    ;mov edi, print_buffer
-    ;call print_oem_string	; Print OEM string
-    ;call print_newline		; Print newline character
-    
-    ; Print Capabilities
-   ; mov eax, dword [esi + 12]	; Capabilities pointer
-   ; call print_capabilities	; Print capabilities
-    ;call print_newline		; Print newline character
-    
-    ; Print video modes
-    ;mov eax, dword [esi + 16]	; Video modes pointer
-    ;call print_video_modes	; Print video modes
-    ;call print_newline		; Print newline character
-    
-    
-
-    ; Print other fields similarly
-    ; For example, capabilities, total memory, OEM vendor name, etc.
-popa
-    ret
-
-
-vbeInfoBuffer: resb 512	; Buffer to store VBE controller information.
-print_buffer: resb 32	; Buffer for printing VBE information
-vbe_info_block:		; 'Sector' 2
+;;vbeInfoBuffer: resb 512	; Buffer to store VBE controller information.
+;; or both can be used but below structure is more informatical
+vbe_info_block:
 	.vbe_signature: db 'VBE2'
 	.vbe_version: dw 0          ; Should be 0300h? BCD value
 	.oem_string_pointer: dd 0 
@@ -163,7 +117,7 @@ vbe_info_block:		; 'Sector' 2
 	.oem_data: times 256 db 0
 
 
-mode_info_block:	; 'Sector' 3
+mode_info_block:
     ;; Mandatory info for all VBE revisions
 	.mode_attributes: dw 0
 	.window_a_attributes: db 0
@@ -221,32 +175,13 @@ mode_info_block:	; 'Sector' 3
     .reserved4: times 190 db 0      ; Remainder of mode info block
 
 ;; VBE Variables
-width: dw 1920
-height: dw 1080
-bpp: db 32
-offset: dw 0
-t_segment: dw 0	; "segment" is keyword in fasm
-mode: dw 0
+	width: dw 1024
+	height: dw 768
+	bpp: db 32
+	offset: dw 0
+	vbe_mode_list_segment: dw 0
+	mode: dw 0
 
-;print_supported_modes:
-;    mov esi, modeInfoBuffer       ; Set source index to mode information buffer
-;    mov edi, print_buffer         ; Set destination index to print buffer
-;    mov cx, word [esi]            ; Number of supported modes
-;    mov byte [edi], 'S'           ; Print 'Supported Modes:' header
-;    mov byte [edi + 1], ' '
-;    mov byte [edi + 2], ' '
-;    add edi, 3                    ; Move destination index
-;    call print_string_16             ; Print header
-;    call print_newline            ; Print newline
-
-;.loop_modes:
-;    add esi, 2                    ; Move to next mode number
-;    mov ax, [esi]                 ; Get video mode number
-;    call print_hex_word           ; Print mode number in hexadecimal
-;    call print_newline            ; Print newline
-;    loop .loop_modes              ; Repeat for all supported modes
-
-;    ret
 
 print_newline:
     mov ah, 0x0E            ; BIOS function to print character
@@ -258,23 +193,6 @@ print_newline:
     int 0x10                ; Call BIOS interrupt to print character
     ret
 
-; Function to print OEM string
-print_oem_string:
-    mov edi, print_buffer   ; Destination buffer
-    xor ecx, ecx            ; Clear ECX register
-    mov cl, 32              ; Maximum characters to print
-    cld                     ; Set direction flag to forward
-    repne scasb             ; Scan for null terminator
-    jecxz .done             ; If not found, exit
-    mov ecx, 32             ; Reset ECX to maximum characters to print
-    mov esi, edi            ; Set source index to destination
-    sub esi, ecx            ; Calculate source pointer
-    mov edi, print_buffer   ; Reset destination pointer
-    mov ecx, 32             ; Reset ECX to maximum characters to print
-    rep movsb               ; Copy string to buffer
-.done:
-    call print_string       ; Print the string
-    ret
 
 
 ; Function to print a string
